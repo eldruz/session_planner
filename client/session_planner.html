@@ -1,0 +1,44 @@
+<head>
+  <title>Session Planner</title>
+</head>
+
+<body>
+<div class="row">
+  {{> sessions}}
+  <div class="span6">
+    <h1>Bienvenido au Session Planner</h1>
+    <p>Choisissez une session ou créez-en une nouvelle</p>
+  </div>
+</div>
+</body>
+
+<template name="sessions">
+  <form name="new_row">
+    <table id="sessions" class="table table-striped span6">
+      <thead>
+        <tr>
+          <th>Nom de la session</th>
+          <th>Participants</th>
+          <th>Last activity</th>
+        </tr>
+      </thead>
+        <tbody>
+        {{#each sessions}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{members}}</td>
+            <td>{{last_activity}}</td>
+          </tr>
+        {{/each}}
+        <tr>
+          <td colspan="3">
+            <input type="text" name="name" placeholder="Enter your session name"></input>
+            <button type="submit" class="btn btn-primary pull-right">
+              <i class="icon-plus"></i> Create Session
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</template>

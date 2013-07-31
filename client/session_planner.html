@@ -3,17 +3,34 @@
 </head>
 
 <body>
-<div class="container-fluid">
-  {{> liste_sessions}}
-</div>
+  <div class="navbar navbar-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav">
+          <li class="active">
+            <a class="brand" href="/">SessionPlanner</a>
+          </li>
+          <li><a href="/">Liste </a></li>
+          <li><a href="/creation">Création</a></li>
+        </ul>
+        <form class="navbar-search pull-right">
+          <input type="text" class="search-query" placeholder="Search">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {{renderPage}}
+  </div>
 
 </body>
 
 <template name="liste_sessions">
   {{#each sessions}}
+  <div class="container-session">
   <div class="row-fluid">
     <div class="span4">
-      <img src="/img/avatar.jpg" class="img-circle">
+      <img class="avatar img-circle">
     </div>
     <div class="span8">
       <h3> {{nom}} </h3>
@@ -28,5 +45,36 @@
       {{description}}
     </div>
   </div>
+</div>
   {{/each}}
+</template>
+
+<template name="creation">
+  <form class="well" id="creation-form">
+    <label>Nom</label>
+    <input type="text" class="span3" placeholder="SacMania 2 ?" name="nom">
+    <span class="help-inline">Il vaut mieux choisir un nom qui claque, t'entends ?!</span>
+    <label>Date</label>
+    <input type="datetime-local" class="span3" name="date">
+    <span class="help-inline">Et pourquoi pas TOUT LE TEMPS ?</span>
+    <label>Lieu</label>
+    <input type="text" class="span3" placeholder="Atelier des Sacs !" name="lieu">
+    <span class="help-inline">Chez la mère à Kitano ?</span>
+    <label>Nombre de places</label>
+    <input type="number" class="span3" placeholder="10000" min="0" name="nb_places">
+    <span class="help-inline">Rentre "0" pour une session NO-LIMIT</span>
+    <label>Jeux disponibles</label>
+    <label class="checkbox">
+      <input type="checkbox" name="jeux" value="SF4"> Street Farceur 4<br>
+      <input type="checkbox" name="jeux" value="UMVC3"> Marvel vs Vergil 3<br>
+      <input type="checkbox" name="jeux" value="KOF"> King of Foutrax 13<br>
+      <input type="checkbox" name="jeux" value="TMNT"> Tortues Ninja Super Turbo
+    </label>
+    <label>Description</label>
+    <input type="text" class="span6" placeholder="La session où il faudra être" maxlength="140" name="description">
+    <span class="help-inline">Chez la mère à Kitano ?</span><br>
+    <button type="submit" class="btn btn-primary">
+      Submit
+    </button>
+  </form>
 </template>

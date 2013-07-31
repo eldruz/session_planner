@@ -1,0 +1,10 @@
+.avatar {
+  background-image:url('/img/avatar.jpg');
+  width: 120px;
+  height: 120px;
+  background-repeat:no-repeat;
+  background-color: red;
+  float: right;
+  margin-top : 25px;
+  box-shadow: 0 0 10px;
+}

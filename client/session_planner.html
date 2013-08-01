@@ -13,9 +13,12 @@
           <li><a href="/">Liste </a></li>
           <li><a href="/creation">Création</a></li>
         </ul>
-        <form class="navbar-search pull-right">
+        <form class="navbar-search pull-left">
           <input type="text" class="search-query" placeholder="Search">
         </form>
+        <div class="btn btn-primary pull-right">
+          {{loginButtons align="right"}}
+        </div>
       </div>
     </div>
   </div>
@@ -28,24 +31,29 @@
 <template name="liste_sessions">
   {{#each sessions}}
   <div class="container-session">
-  <div class="row-fluid">
-    <div class="span4">
-      <img class="avatar img-circle">
+    <div class="row-fluid">
+      <div class="span3 offset 2">
+        <img class="avatar img-circle">
+      </div>
+      <div class="span5">
+        <h3> {{nom}} </h3>
+        <h4> {{date}} </h4>
+        <h4> {{lieu}} </h4>
+        <h4> {{jeux}} </h4>
+        <h4> {{nb_places}} </h4>
+      </div>
     </div>
-    <div class="span8">
-      <h3> {{nom}} </h3>
-      <h4> {{date}} </h4>
-      <h4> {{lieu}} </h4>
-      <h4> {{jeux}} </h4>
-      <h4> {{nb_places}} </h4>
+    <div class="row-fluid">
+      <div class="span10 offset2">
+        {{description}}
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span3 offset1 btn btn-primary">
+        J'achète !
+      </div>
     </div>
   </div>
-  <div class="row-fluid">
-    <div class="span10 offset2">
-      {{description}}
-    </div>
-  </div>
-</div>
   {{/each}}
 </template>
 
@@ -64,12 +72,8 @@
     <input type="number" class="span3" placeholder="10000" min="0" name="nb_places">
     <span class="help-inline">Rentre "0" pour une session NO-LIMIT</span>
     <label>Jeux disponibles</label>
-    <label class="checkbox">
-      <input type="checkbox" name="jeux" value="SF4"> Street Farceur 4<br>
-      <input type="checkbox" name="jeux" value="UMVC3"> Marvel vs Vergil 3<br>
-      <input type="checkbox" name="jeux" value="KOF"> King of Foutrax 13<br>
-      <input type="checkbox" name="jeux" value="TMNT"> Tortues Ninja Super Turbo
-    </label>
+    <input type="text" class="span6" placeholder="Lea Passion Coiffure VS Derrick" name="jeux">
+    <span class="help-inline">La liste des jeux qui seront souillés</span>
     <label>Description</label>
     <input type="text" class="span6" placeholder="La session où il faudra être" maxlength="140" name="description">
     <span class="help-inline">Chez la mère à Kitano ?</span><br>

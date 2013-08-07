@@ -16,69 +16,42 @@
         <form class="navbar-search pull-left">
           <input type="text" class="search-query" placeholder="Search">
         </form>
-        <div class="btn btn-primary pull-right">
+        <div class="pull-right">
           {{loginButtons align="right"}}
         </div>
       </div>
     </div>
   </div>
   <div class="container-fluid">
-    {{renderPage}}
+    <sidebar class="span4 liste_sessions">
+      {{> sidebar}}
+    </sidebar>
+    <div class="span8 details_session">
+      {{> details}}
+    </div>
   </div>
-
 </body>
 
-<template name="liste_sessions">
+<template name="sidebar">
+  {{> sessions_headers}}
+</template>
+
+<template name="sessions_headers">
   {{#each sessions}}
-  <div class="container-session">
-    <div class="row-fluid">
-      <div class="span3 offset 2">
-        <img class="avatar img-circle">
-      </div>
-      <div class="span5">
-        <h3> {{nom}} </h3>
-        <h4> {{date}} </h4>
-        <h4> {{lieu}} </h4>
-        <h4> {{jeux}} </h4>
-        <h4> {{nb_places}} </h4>
-      </div>
+    <div class="session_header list-group {{selected}}">
+      <h4 class="list-group-item-heading">{{nom}} by {{owner}}</h4>
+      <p class="list-group-item-text">{{date}}</p>
     </div>
-    <div class="row-fluid">
-      <div class="span10 offset2">
-        {{description}}
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span3 offset1 btn btn-primary">
-        J'achète !
-      </div>
-    </div>
-  </div>
   {{/each}}
 </template>
 
-<template name="creation">
-  <form class="well" id="creation-form">
-    <label>Nom</label>
-    <input type="text" class="span3" placeholder="SacMania 2 ?" name="nom">
-    <span class="help-inline">Il vaut mieux choisir un nom qui claque, t'entends ?!</span>
-    <label>Date</label>
-    <input type="datetime-local" class="span3" name="date">
-    <span class="help-inline">Et pourquoi pas TOUT LE TEMPS ?</span>
-    <label>Lieu</label>
-    <input type="text" class="span3" placeholder="Atelier des Sacs !" name="lieu">
-    <span class="help-inline">Chez la mère à Kitano ?</span>
-    <label>Nombre de places</label>
-    <input type="number" class="span3" placeholder="10000" min="0" name="nb_places">
-    <span class="help-inline">Rentre "0" pour une session NO-LIMIT</span>
-    <label>Jeux disponibles</label>
-    <input type="text" class="span6" placeholder="Lea Passion Coiffure VS Derrick" name="jeux">
-    <span class="help-inline">La liste des jeux qui seront souillés</span>
-    <label>Description</label>
-    <input type="text" class="span6" placeholder="La session où il faudra être" maxlength="140" name="description">
-    <span class="help-inline">Chez la mère à Kitano ?</span><br>
-    <button type="submit" class="btn btn-primary">
-      Submit
-    </button>
-  </form>
+<template name="details">
+  {{#if session}}
+    {{#with session}}
+      <h2>{{nom}}</h2>
+      <h4>à {{lieu}}</h4>
+      <p>{{description}}</p>
+      <p>places restantes : {{participants.length}}/{{nb_places}}</p>
+    {{/with}}
+  {{/if}}
 </template>

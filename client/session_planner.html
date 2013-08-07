@@ -48,10 +48,32 @@
 <template name="details">
   {{#if session}}
     {{#with session}}
+      {{#if session_owner}}
+        {{> admin_session}}
+      {{/if}}
       <h2>{{nom}}</h2>
       <h4>à {{lieu}}</h4>
       <p>{{description}}</p>
-      <p>places restantes : {{participants.length}}/{{nb_places}}</p>
+      <p>places restantes : {{nb_participants_confirmes}}/{{nb_places}}</p>
+      {{#each participants}}
+        <p>{{user}} : {{rsvp}}</p>
+      {{/each}}
     {{/with}}
+      {{#if currentUser}}
+        <input type="button" value="I'm going!"
+               class="btn btn-small rsvp_yes {{maybeChosen "yes"}}">
+        <input type="button" value="Maybe"
+               class="btn btn-small rsvp_maybe {{maybeChosen "maybe"}}">
+        <input type="button" value="No"
+               class="btn btn-small rsvp_no {{maybeChosen "no"}}">
+      {{else}}
+        <i>Sign in to RSVP for this party.</i>
+      {{/if}}
   {{/if}}
+</template>
+
+<template name="admin_session">
+  <div class="delete-btn btn btn-primary">
+    Delete
+  </div>
 </template>

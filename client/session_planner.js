@@ -24,6 +24,8 @@ Template.page.showCreateDialog = function () {
 
 Template.page.events ({
   'click .create-session': function(event) {
+    if (! this.userId)
+      throw new Meteor.Error(403, "You must be logged in.");
     Session.set("showCreateDialog", true);
   }
 });

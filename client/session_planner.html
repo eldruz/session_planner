@@ -3,7 +3,14 @@
 </head>
 
 <body>
-  <div class="navbar navbar-top">
+  {{> page}}
+</body>
+
+<template name="page">
+  {{#if showCreateDialog}}
+    {{> createDialog}}
+  {{/if}}
+  <div class="navbar navbar-top create-session">
     <div class="navbar-inner">
       <div class="container">
         <ul class="nav">
@@ -11,7 +18,7 @@
             <a class="brand" href="/">SessionPlanner</a>
           </li>
           <li><a href="/">Liste </a></li>
-          <li><a href="/creation">Création</a></li>
+          <li><a href="#" class="create-session">Création</a></li>
         </ul>
         <form class="navbar-search pull-left">
           <input type="text" class="search-query" placeholder="Search">
@@ -30,7 +37,7 @@
       {{> details}}
     </div>
   </div>
-</body>
+</template>
 
 <template name="sidebar">
   {{> sessions_headers}}
@@ -75,5 +82,41 @@
 <template name="admin_session">
   <div class="delete-btn btn btn-primary">
     Delete
+  </div>
+</template>
+
+<template name="createDialog">
+  <div class="mask"> </div>
+  <div class="modal">
+    <div class="modal-header">
+      <button type="button" class="close cancel">&times;</button>
+      <h3>Add session</h3>
+    </div>
+
+    <div class="modal-body">
+      {{#if error}}
+        <div class="alert alert-error">{{error}}</div>
+      {{/if}}
+
+      <label>Nom</label>
+      <input type="text" class="nom span5">
+
+      <label>Date</label>
+      <input type="datetime-local" class="date span5">
+
+      <label>Lieu</label>
+      <input type="text" class="lieu span5">
+
+      <label>Nombre de places</label>
+      <input type="number" class="nb_places span5" min="0">
+
+      <label>Description</label>
+      <textarea class="description span5"></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn cancel">Cancel</a>
+      <a href="#" class="btn btn-primary save">Add session</a>
+    </div>
   </div>
 </template>

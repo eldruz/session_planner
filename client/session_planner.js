@@ -13,7 +13,19 @@ Meteor.startup(function () {
       if (session)
         Session.set("selected", session._id);
     }
+    Session.set("showCreateDialog", false);
   });
+});
+
+// Template : page
+Template.page.showCreateDialog = function () {
+  return Session.get("showCreateDialog");
+}
+
+Template.page.events ({
+  'click .create-session': function(event) {
+    Session.set("showCreateDialog", true);
+  }
 });
 
 // Template : sessions_headers
@@ -68,7 +80,36 @@ Template.details.events({
 });
 
 Template.admin_session.events({
-  'click .delete-btn': function () {
+  'click .delete-btn, dblclick .delete-btn': function () {
     Dosage.remove(this._id);
+  }
+});
+
+// Template createDialog
+Template.createDialog.events({
+  'click .save': function (event, template) {
+    var nom = template.find(".nom").value;
+    var date = new Date(template.find(".date").value);
+    var lieu = template.find(".lieu").value;
+    var nb_places = parseInt(template.find(".nb_places").value);
+    var description = template.find(".description").value;
+
+    if (nom.length && description.length) {
+      Meteor.call('createSession', {
+        nom: nom,
+        date: date,
+        lieu: lieu,
+        description: description,
+        nb_places: nb_places
+      }, function (error, session) {
+        if (!error) {
+          Session.set("selected", session);
+        }
+      }); // Meteor.call
+    } // if
+  },
+
+  'click .cancel': function(event, template) {
+    Session.set("showCreateDialog", false);
   }
 });

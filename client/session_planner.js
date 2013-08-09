@@ -1,5 +1,6 @@
 // Subscriptions and options
 Meteor.subscribe("sessions");
+Meteor.subscribe("users");
 
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
@@ -15,6 +16,11 @@ Meteor.startup(function () {
     }
     Session.set("showCreateDialog", false);
   });
+});
+
+// Global helpers
+Handlebars.registerHelper("showUsername", function(userId) {
+  return Meteor.users.findOne(userId).username;
 });
 
 // Template : page
@@ -74,7 +80,7 @@ Template.details.session = function() {
 
 Template.details.session_owner = function() {
   if (Meteor.user())
-    return Dosage.findOne(Session.get("selected")).owner === Meteor.user().username;
+    return Dosage.findOne(Session.get("selected")).owner === this.userId;
   else
     return false;
 }

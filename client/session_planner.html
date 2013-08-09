@@ -46,7 +46,7 @@
 <template name="sessions_headers">
   {{#each sessions}}
     <div class="session_header list-group {{selected}}">
-      <h4 class="list-group-item-heading {{open}}">{{nom}} by {{owner}}</h4>
+      <h4 class="list-group-item-heading {{open}}">{{nom}} by {{showUsername owner}}</h4>
       <p class="list-group-item-text">{{momentDate date}}</p>
     </div>
   {{/each}}
@@ -63,7 +63,7 @@
       <p>{{description}}</p>
       <p>places restantes : {{nb_participants_confirmes}}/{{nb_places}}</p>
       {{#each participants}}
-        <p>{{user}} : {{rsvp}}</p>
+        <p>{{showUsername user}} : {{rsvp}}</p>
       {{/each}}
     {{/with}}
       {{#if currentUser}}

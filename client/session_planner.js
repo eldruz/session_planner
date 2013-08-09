@@ -1,6 +1,4 @@
 // Subscriptions and options
-Meteor.subscribe("sessions_dose");
-
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
 });
@@ -24,8 +22,10 @@ Template.page.showCreateDialog = function () {
 
 Template.page.events ({
   'click .create-session': function(event) {
-    if (! this.userId)
+    if (! Meteor.user()) {
+      console.log(this.userId);
       throw new Meteor.Error(403, "You must be logged in.");
+    }
     Session.set("showCreateDialog", true);
   }
 });
@@ -37,6 +37,11 @@ Template.sessions_headers.sessions = function() {
 
 Template.sessions_headers.selected = function () {
   return Session.equals('selected', this._id) ? 'active' : '';
+}
+
+Template.sessions_headers.open = function () {
+  if (! this.open)
+    return 'private-session';
 }
 
 Template.sessions_headers.momentDate = function () {
@@ -57,7 +62,6 @@ Template.sessions_headers.momentDate = function () {
 Template.sessions_headers.events({
   'click .session_header': function (event) {
     Session.set("selected", this._id);
-    // console.log(this._id);
   }
 });
 
@@ -110,6 +114,7 @@ Template.createDialog.events({
     var lieu = template.find(".lieu").value;
     var nb_places = parseInt(template.find(".nb_places").value);
     var description = template.find(".description").value;
+    var open = ! template.find(".open").checked;
 
     if (nom.length && description.length) {
       Meteor.call('createSession', {
@@ -117,7 +122,8 @@ Template.createDialog.events({
         date: date,
         lieu: lieu,
         description: description,
-        nb_places: nb_places
+        nb_places: nb_places,
+        open: open
       }, function (error, session) {
         if (!error) {
           Session.set("selected", session);

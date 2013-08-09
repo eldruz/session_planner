@@ -1,4 +1,6 @@
 // Subscriptions and options
+Meteor.subscribe("sessions");
+
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
 });

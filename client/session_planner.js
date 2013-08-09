@@ -37,7 +37,22 @@ Template.sessions_headers.sessions = function() {
 
 Template.sessions_headers.selected = function () {
   return Session.equals('selected', this._id) ? 'active' : '';
-};
+}
+
+Template.sessions_headers.momentDate = function () {
+  var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
+  moment.lang(lang, {
+    calendar : {
+      lastDay : '[Hier à] LT',
+      sameDay : '[Aujourd\'hui à] LT',
+      nextDay : '[Demain à] LT',
+      lastWeek : 'dddd [dernier] [à] LT',
+      nextWeek : 'dddd [à] LT',
+      sameElse: 'L [à] LT'
+    }
+  });
+  return moment(this.date).calendar();
+}
 
 Template.sessions_headers.events({
   'click .session_header': function (event) {

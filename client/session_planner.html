@@ -63,7 +63,7 @@
       <p>{{description}}</p>
       <p>places restantes : {{nb_participants_confirmes}}/{{nb_places}}</p>
       {{#each participants}}
-        <p>{{showUsername user}} : {{rsvp}}</p>
+        <i class="icon-{{rsvp_icon rsvp}} icon-large pull-left"></i><p>{{showUsername user}}</p>
       {{/each}}
     {{/with}}
       {{#if currentUser}}

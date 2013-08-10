@@ -91,6 +91,14 @@ Template.details.helpers({
       count += _.where(session.participants, {rsvp: 'yes'}).length;
     });
     return count;
+  },
+  rsvp_icon: function (rsvp) {
+    switch (rsvp) {
+      case 'yes': return 'thumbs-up'; break;
+      case 'no': return 'thumbs-down'; break;
+      case 'maybe': return 'spinner icon-spin'; break;
+      default: return 'question';
+    }
   }
 });
 

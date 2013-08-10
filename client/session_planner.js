@@ -43,7 +43,7 @@ Template.page.events ({
 // Template : sessions_headers
 Template.sessions_headers.helpers({
   sessions: function () {
-    return Dosage.find({}, {sort: [["date", "asc"], ["nom", "asc"]]});
+    return Dosage.find();
   },
   selected: function () {
     return Session.equals('selected', this._id) ? 'active' : '';
@@ -99,6 +99,48 @@ Template.details.helpers({
       case 'maybe': return 'spinner icon-spin'; break;
       default: return 'question';
     }
+  },
+  each_sorted: function (participants, options) {
+    var ret = "";
+
+    var sort_username = function(a,b) {
+      if (Meteor.users.findOne(a.user).username > Meteor.users.findOne(b.user).username)
+        return 1;
+      else if (Meteor.users.findOne(a.user).username < Meteor.users.findOne(b.user).username)
+        return -1;
+      else
+        return 0;
+    };
+
+    participants.sort(function (a,b) {
+      switch (a.rsvp) {
+        case 'yes':
+          switch (b.rsvp) {
+            case 'yes': return sort_username(a,b); break;
+            default: return -1; break;
+          }
+          break;
+        case 'no':
+          switch (b.rsvp) {
+            case 'no': return 0; break;
+            default: return 1; break;
+          }
+          break;
+        case 'maybe':
+          switch (b.rsvp) {
+            case 'maybe': return 0; break;
+            case 'no': return -1; break;
+            case 'yes': return 1; break;
+          }
+          break;
+      }
+    })
+
+    for(var i=0, j=participants.length; i<j; i++) {
+      ret = ret + options.fn(participants[i]);
+    }
+
+    return ret;
   }
 });
 

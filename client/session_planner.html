@@ -62,9 +62,9 @@
       <h4>à {{lieu}}</h4>
       <p>{{description}}</p>
       <p>places restantes : {{nb_participants_confirmes}}/{{nb_places}}</p>
-      {{#each participants}}
+      {{#each_sorted participants}}
         <i class="icon-{{rsvp_icon rsvp}} icon-large pull-left"></i><p>{{showUsername user}}</p>
-      {{/each}}
+      {{/each_sorted}}
     {{/with}}
       {{#if currentUser}}
         <input type="button" value="I'm going!"

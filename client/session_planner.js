@@ -24,9 +24,11 @@ Handlebars.registerHelper("showUsername", function(userId) {
 });
 
 // Template : page
-Template.page.showCreateDialog = function () {
-  return Session.get("showCreateDialog");
-}
+Template.page.helpers({
+  showCreateDialog: function () {
+    return Session.get("showCreateDialog");
+  }
+});
 
 Template.page.events ({
   'click .create-session': function(event) {
@@ -39,33 +41,32 @@ Template.page.events ({
 });
 
 // Template : sessions_headers
-Template.sessions_headers.sessions = function() {
-  return Dosage.find({}, {sort: [["date", "asc"], ["nom", "asc"]]});
-}
-
-Template.sessions_headers.selected = function () {
-  return Session.equals('selected', this._id) ? 'active' : '';
-}
-
-Template.sessions_headers.open = function () {
-  if (! this.open)
+Template.sessions_headers.helpers({
+  sessions: function () {
+    return Dosage.find({}, {sort: [["date", "asc"], ["nom", "asc"]]});
+  },
+  selected: function () {
+    return Session.equals('selected', this._id) ? 'active' : '';
+  },
+  open: function() {
+    if (! this.open)
     return 'private-session';
-}
-
-Template.sessions_headers.momentDate = function () {
-  var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
-  moment.lang(lang, {
-    calendar : {
-      lastDay : '[Hier à] LT',
-      sameDay : '[Aujourd\'hui à] LT',
-      nextDay : '[Demain à] LT',
-      lastWeek : 'dddd [dernier] [à] LT',
-      nextWeek : 'dddd [à] LT',
-      sameElse: 'L [à] LT'
-    }
-  });
-  return moment(this.date).calendar();
-}
+  },
+  momentDate: function() {
+    var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
+    moment.lang(lang, {
+      calendar : {
+        lastDay : '[Hier à] LT',
+        sameDay : '[Aujourd\'hui à] LT',
+        nextDay : '[Demain à] LT',
+        lastWeek : 'dddd [dernier] [à] LT',
+        nextWeek : 'dddd [à] LT',
+        sameElse: 'L [à] LT'
+      }
+    });
+    return moment(this.date).calendar();
+  }
+});
 
 Template.sessions_headers.events({
   'click .session_header': function (event) {
@@ -74,24 +75,24 @@ Template.sessions_headers.events({
 });
 
 // Template : details
-Template.details.session = function() {
-  return Dosage.findOne(Session.get("selected"));
-}
-
-Template.details.session_owner = function() {
-  if (Meteor.user())
-    return Dosage.findOne(Session.get("selected")).owner === this.userId;
-  else
-    return false;
-}
-
-Template.details.nb_participants_confirmes = function () {
-  var count=0;
-  Dosage.find(Dosage.findOne(Session.get("selected"))).forEach(function (session) {
-    count += _.where(session.participants, {rsvp: 'yes'}).length;
-  });
-  return count;
-}
+Template.details.helpers({
+  session: function () {
+    return Dosage.findOne(Session.get("selected"));
+  },
+  session_owner: function () {
+    if (Meteor.user())
+      return Dosage.findOne(Session.get("selected")).owner === this.userId;
+    else
+      return false;
+  },
+  nb_participants_confirmes: function () {
+    var count=0;
+    Dosage.find(Dosage.findOne(Session.get("selected"))).forEach(function (session) {
+      count += _.where(session.participants, {rsvp: 'yes'}).length;
+    });
+    return count;
+  }
+});
 
 Template.details.events({
   'click .rsvp_yes': function () {
@@ -108,6 +109,7 @@ Template.details.events({
   }
 });
 
+// Template admin_session
 Template.admin_session.events({
   'click .delete-btn, dblclick .delete-btn': function () {
     Dosage.remove(this._id);

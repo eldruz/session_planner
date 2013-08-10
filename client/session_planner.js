@@ -40,7 +40,7 @@ Template.page.events ({
 
 // Template : sessions_headers
 Template.sessions_headers.sessions = function() {
-  return Dosage.find();
+  return Dosage.find({}, {sort: [["date", "asc"], ["nom", "asc"]]});
 }
 
 Template.sessions_headers.selected = function () {

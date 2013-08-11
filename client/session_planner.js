@@ -56,12 +56,12 @@ Template.sessions_headers.helpers({
     var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
     moment.lang(lang, {
       calendar : {
-        lastDay : '[Hier à] LT',
-        sameDay : '[Aujourd\'hui à] LT',
-        nextDay : '[Demain à] LT',
+        lastDay  : '[Hier à] LT',
+        sameDay  : '[Aujourd\'hui à] LT',
+        nextDay  : '[Demain à] LT',
         lastWeek : 'dddd [dernier] [à] LT',
         nextWeek : 'dddd [à] LT',
-        sameElse: 'L [à] LT'
+        sameElse : 'L [à] LT'
       }
     });
     return moment(this.date).calendar();
@@ -94,9 +94,9 @@ Template.details.helpers({
   },
   rsvp_icon: function (rsvp) {
     switch (rsvp) {
-      case 'yes': return 'thumbs-up'; break;
-      case 'no': return 'thumbs-down'; break;
-      case 'maybe': return 'spinner icon-spin'; break;
+      case 'yes'   : return 'thumbs-up'; break;
+      case 'no'    : return 'thumbs-down'; break;
+      case 'maybe' : return 'spinner icon-spin'; break;
       default: return 'question';
     }
   },
@@ -116,21 +116,21 @@ Template.details.helpers({
       switch (a.rsvp) {
         case 'yes':
           switch (b.rsvp) {
-            case 'yes': return sort_username(a,b); break;
-            default: return -1; break;
+            case 'yes' : return sort_username(a,b); break;
+            default    : return -1; break;
           }
           break;
         case 'no':
           switch (b.rsvp) {
-            case 'no': return 0; break;
-            default: return 1; break;
+            case 'no' : return 0; break;
+            default   : return 1; break;
           }
           break;
         case 'maybe':
           switch (b.rsvp) {
-            case 'maybe': return 0; break;
-            case 'no': return -1; break;
-            case 'yes': return 1; break;
+            case 'maybe' : return 0; break;
+            case 'no'    : return -1; break;
+            case 'yes'   : return 1; break;
           }
           break;
       }
@@ -169,21 +169,21 @@ Template.admin_session.events({
 // Template createDialog
 Template.createDialog.events({
   'click .save': function (event, template) {
-    var nom = template.find(".nom").value;
-    var date = new Date(template.find(".date").value);
-    var lieu = template.find(".lieu").value;
-    var nb_places = parseInt(template.find(".nb_places").value);
+    var nom         = template.find(".nom").value;
+    var date        = new Date(template.find(".date").value);
+    var lieu        = template.find(".lieu").value;
+    var nb_places   = parseInt(template.find(".nb_places").value);
     var description = template.find(".description").value;
-    var open = ! template.find(".open").checked;
+    var open        = ! template.find(".open").checked;
 
     if (nom.length && description.length) {
       Meteor.call('createSession', {
-        nom: nom,
-        date: date,
-        lieu: lieu,
-        description: description,
-        nb_places: nb_places,
-        open: open
+        nom         : nom,
+        date        : date,
+        lieu        : lieu,
+        description : description,
+        nb_places   : nb_places,
+        open        : open
       }, function (error, session) {
         if (!error) {
           Session.set("selected", session);

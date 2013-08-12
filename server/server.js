@@ -4,7 +4,7 @@
 Meteor.publish("sessions", function () {
   if (this.userId)
     return Dosage.find({
-      $or: [{"open": true}, {"owner": this.userId}]
+      $or: [{"open": true}, {"owner": this.userId}, {"invited": this.userId}]
     }, {sort: [["date", "asc"], ["nom", "asc"]]});
   else
     return Dosage.find({"open": true});

@@ -10,6 +10,9 @@
   {{#if showCreateDialog}}
     {{> createDialog}}
   {{/if}}
+  {{#if showInviteDialog}}
+    {{> inviteDialog}}
+  {{/if}}
   <div class="navbar navbar-top">
     <div class="navbar-inner">
       <div class="container">
@@ -63,7 +66,11 @@
       <p>{{description}}</p>
       <p>places restantes : {{nb_participants_confirmes}}/{{nb_places}}</p>
       {{#each_sorted participants}}
-        <i class="icon-{{rsvp_icon rsvp}} icon-large pull-left"></i><p>{{showUsername user}}</p>
+        <i class="icon-{{rsvp_icon rsvp}} icon-large pull-left"></i>
+        <p>{{showUsername user}}</p>
+        {{#if is_invited}}
+          <span class="label label-info pull-right">Invité</span>
+        {{/if}}
       {{/each_sorted}}
     {{/with}}
       {{#if currentUser}}
@@ -80,9 +87,12 @@
 </template>
 
 <template name="admin_session">
-  <div class="delete-btn btn btn-primary">
+  <button class="delete-btn btn btn-danger">
     Delete
-  </div>
+  </button>
+  <button class="invite-btn btn btn-primary">
+    Invite
+  </button>
 </template>
 
 <template name="createDialog">
@@ -122,6 +132,31 @@
     <div class="modal-footer">
       <a href="#" class="btn cancel">Cancel</a>
       <a href="#" class="btn btn-primary save">Add session</a>
+    </div>
+  </div>
+</template>
+
+<template name="inviteDialog">
+  <div class="mask"> </div>
+  <div class="modal">
+    <div class="modal-header">
+      <button type="button" class="close done">&times;</button>
+      <h3>Invite des sacs</h3>
+    </div>
+
+    <div class="modal-body">
+      {{#each uninvited}}
+        <div class="invite-row">
+          <a href="#" class="btn invite">Invite</a>
+          {{username}}
+        </div>
+      {{else}}
+        Everyone on the site has already been invited.
+      {{/each}}
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn btn-primary done">Done</a>
     </div>
   </div>
 </template>

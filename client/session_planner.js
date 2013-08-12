@@ -15,6 +15,7 @@ Meteor.startup(function () {
         Session.set("selected", session._id);
     }
     Session.set("showCreateDialog", false);
+    Session.set("showInviteDialog", false);
   });
 });
 
@@ -27,6 +28,9 @@ Handlebars.registerHelper("showUsername", function(userId) {
 Template.page.helpers({
   showCreateDialog: function () {
     return Session.get("showCreateDialog");
+  },
+  showInviteDialog: function () {
+    return Session.get("showInviteDialog");
   }
 });
 
@@ -81,7 +85,7 @@ Template.details.helpers({
   },
   session_owner: function () {
     if (Meteor.user())
-      return Dosage.findOne(Session.get("selected")).owner === this.userId;
+      return Dosage.findOne(Session.get("selected")).owner === Meteor.user()._id;
     else
       return false;
   },
@@ -94,9 +98,9 @@ Template.details.helpers({
   },
   rsvp_icon: function (rsvp) {
     switch (rsvp) {
-      case 'yes'   : return 'thumbs-up'; break;
-      case 'no'    : return 'thumbs-down'; break;
-      case 'maybe' : return 'spinner icon-spin'; break;
+      case 'yes'   : return 'ok'; break;
+      case 'no'    : return 'remove'; break;
+      case 'maybe' : return 'question'; break;
       default: return 'question';
     }
   },
@@ -122,13 +126,13 @@ Template.details.helpers({
           break;
         case 'no':
           switch (b.rsvp) {
-            case 'no' : return 0; break;
+            case 'no' : return sort_username(a,b); break;
             default   : return 1; break;
           }
           break;
         case 'maybe':
           switch (b.rsvp) {
-            case 'maybe' : return 0; break;
+            case 'maybe' : return sort_username(a,b); break;
             case 'no'    : return -1; break;
             case 'yes'   : return 1; break;
           }
@@ -141,6 +145,10 @@ Template.details.helpers({
     }
 
     return ret;
+  },
+  is_invited: function () {
+    var session = Dosage.findOne(Session.get("selected"));
+    return jQuery.inArray(this.user, session.invited);
   }
 });
 
@@ -161,8 +169,11 @@ Template.details.events({
 
 // Template admin_session
 Template.admin_session.events({
-  'click .delete-btn, dblclick .delete-btn': function () {
+  'click .delete-btn': function () {
     Dosage.remove(this._id);
+  },
+  'click .invite-btn': function () {
+    Session.set("showInviteDialog", true);
   }
 });
 
@@ -194,5 +205,26 @@ Template.createDialog.events({
 
   'click .cancel': function(event, template) {
     Session.set("showCreateDialog", false);
+  }
+});
+
+// Template inviteDialog
+Template.inviteDialog.helpers({
+  uninvited: function() {
+    var session = Dosage.findOne(Session.get("selected"));
+    if (! session)
+      return []; // party hasn't loaded yet
+    return Meteor.users.find({$nor: [{_id: {$in: session.invited}},
+                                     {_id: session.owner}]});
+  }
+});
+
+Template.inviteDialog.events({
+  'click .invite': function (event, template) {
+    Meteor.call('invite', Session.get("selected"), this._id);
+  },
+  'click .done': function (event, template) {
+    Session.set("showInviteDialog", false);
+    return false;
   }
 });

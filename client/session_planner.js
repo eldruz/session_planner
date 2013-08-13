@@ -41,13 +41,17 @@ Template.page.events ({
       throw new Meteor.Error(403, "You must be logged in.");
     }
     Session.set("showCreateDialog", true);
+  },
+  'keyup [name=search]': function (e, context) {
+    Session.set("search_keywords", e.currentTarget.value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&"));
   }
 });
 
 // Template : sessions_headers
 Template.sessions_headers.helpers({
   sessions: function () {
-    return Dosage.find();
+    keywords = new RegExp(Session.get("search_keywords"), "i");
+    return Dosage.find({nom: keywords});
   },
   selected: function () {
     return Session.equals('selected', this._id) ? 'active' : '';

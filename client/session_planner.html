@@ -13,6 +13,7 @@
   {{#if showInviteDialog}}
     {{> inviteDialog}}
   {{/if}}
+  {{#constant}}
   <div class="navbar navbar-top">
     <div class="navbar-inner">
       <div class="container">
@@ -22,16 +23,17 @@
           </li>
           <li><a href="/">Liste </a></li>
           <li><a href="#" class="create-session">Création</a></li>
+          <li>
+            <input name="search" id="search" value="{{search_keywords}}" type="text" class="search-query" placeholder="Search">
+          </li>
         </ul>
-        <form class="navbar-search pull-left">
-          <input type="text" class="search-query" placeholder="Search">
-        </form>
         <div class="pull-right">
           {{loginButtons align="right"}}
         </div>
       </div>
     </div>
   </div>
+  {{/constant}}
   <div class="container-fluid">
     <sidebar class="span4 liste_sessions">
       {{> sidebar}}

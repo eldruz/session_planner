@@ -1,0 +1,9 @@
+{
+  "packages": {
+    "bootstrap-updated": {},
+    "font-awesome": {},
+    "router": {},
+    "momentjs": {},
+    "modernizr-meteor": {}
+  }
+}

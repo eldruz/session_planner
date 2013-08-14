@@ -16,6 +16,7 @@ Meteor.startup(function () {
     }
     Session.set("showCreateDialog", false);
     Session.set("showInviteDialog", false);
+    Session.set("search_keywords", "");
   });
 });
 
@@ -51,14 +52,14 @@ Template.page.events ({
 Template.sessions_headers.helpers({
   sessions: function () {
     keywords = new RegExp(Session.get("search_keywords"), "i");
-    return Dosage.find({nom: keywords});
+    return Dosage.find({$or: [{nom: keywords}, {owner: keywords}, {date: keywords}]});
   },
   selected: function () {
     return Session.equals('selected', this._id) ? 'active' : '';
   },
   open: function() {
-    if (! this.open)
-    return 'private-session';
+    if (!this.open)
+      return 'private-session';
   },
   momentDate: function() {
     var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
@@ -102,9 +103,9 @@ Template.details.helpers({
   },
   rsvp_icon: function (rsvp) {
     switch (rsvp) {
-      case 'yes'   : return 'ok'; break;
-      case 'no'    : return 'remove'; break;
-      case 'maybe' : return 'question'; break;
+      case 'yes'   : return 'ok';
+      case 'no'    : return 'remove';
+      case 'maybe' : return 'question';
       default: return 'question';
     }
   },
@@ -112,9 +113,11 @@ Template.details.helpers({
     var ret = "";
 
     var sort_username = function(a,b) {
-      if (Meteor.users.findOne(a.user).username > Meteor.users.findOne(b.user).username)
+      var a_username = Meteor.users.findOne(a.user).username,
+        b_username = Meteor.users.findOne(b.user).username;
+      if (a_username > b_username)
         return 1;
-      else if (Meteor.users.findOne(a.user).username < Meteor.users.findOne(b.user).username)
+      else if (a_username < b_username)
         return -1;
       else
         return 0;
@@ -124,28 +127,28 @@ Template.details.helpers({
       switch (a.rsvp) {
         case 'yes':
           switch (b.rsvp) {
-            case 'yes' : return sort_username(a,b); break;
-            default    : return -1; break;
+            case 'yes' : return sort_username(a,b);
+            default    : return -1;
           }
           break;
         case 'no':
           switch (b.rsvp) {
-            case 'no' : return sort_username(a,b); break;
-            default   : return 1; break;
+            case 'no' : return sort_username(a,b);
+            default   : return 1;
           }
           break;
         case 'maybe':
           switch (b.rsvp) {
-            case 'maybe' : return sort_username(a,b); break;
-            case 'no'    : return -1; break;
-            case 'yes'   : return 1; break;
+            case 'maybe' : return sort_username(a,b);
+            case 'no'    : return -1;
+            case 'yes'   : return 1;
           }
           break;
       }
-    })
+    });
 
     for(var i=0, j=participants.length; i<j; i++) {
-      ret = ret + options.fn(participants[i]);
+      ret += options.fn(participants[i]);
     }
 
     return ret;
@@ -187,7 +190,7 @@ Template.createDialog.events({
     var nom         = template.find(".nom").value;
     var date        = new Date(template.find(".date").value);
     var lieu        = template.find(".lieu").value;
-    var nb_places   = parseInt(template.find(".nb_places").value);
+    var nb_places   = parseInt(template.find(".nb_places").value, 10);
     var description = template.find(".description").value;
     var open        = ! template.find(".open").checked;
 
@@ -216,7 +219,7 @@ Template.createDialog.events({
 Template.inviteDialog.helpers({
   uninvited: function() {
     var session = Dosage.findOne(Session.get("selected"));
-    if (! session)
+    if (!session)
       return []; // party hasn't loaded yet
     return Meteor.users.find({$nor: [{_id: {$in: session.invited}},
                                      {_id: session.owner}]});

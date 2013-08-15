@@ -16,7 +16,6 @@ Meteor.startup(function () {
     }
     Session.set("showCreateDialog", false);
     Session.set("showInviteDialog", false);
-    Session.set("search_keywords", "");
   });
 });
 
@@ -110,46 +109,39 @@ Template.details.helpers({
     }
   },
   each_sorted: function (participants, options) {
-    var ret = "";
-
-    var sort_username = function(a,b) {
-      var a_username = Meteor.users.findOne(a.user).username,
-        b_username = Meteor.users.findOne(b.user).username;
-      if (a_username > b_username)
-        return 1;
-      else if (a_username < b_username)
-        return -1;
-      else
-        return 0;
-    };
+    var ret = "",
+        sort_username = function(a,b) {
+          var a_username = Meteor.users.findOne(a.user).username,
+              b_username = Meteor.users.findOne(b.user).username;
+          if (a_username > b_username)
+            return 1;
+          else if (a_username < b_username)
+            return -1;
+          else
+            return 0;
+        };
 
     participants.sort(function (a,b) {
-      switch (a.rsvp) {
-        case 'yes':
-          switch (b.rsvp) {
-            case 'yes' : return sort_username(a,b);
-            default    : return -1;
-          }
-          break;
-        case 'no':
-          switch (b.rsvp) {
-            case 'no' : return sort_username(a,b);
-            default   : return 1;
-          }
-          break;
-        case 'maybe':
-          switch (b.rsvp) {
-            case 'maybe' : return sort_username(a,b);
-            case 'no'    : return -1;
-            case 'yes'   : return 1;
-          }
-          break;
-      }
+      var choices = {
+            yes: function() {
+              if (b.rsvp === 'yes') return sort_username(a,b); else return -1;
+            },
+            no: function() {
+              if (b.rsvp === 'no') return sort_username(a,b); else return 1;
+            },
+            maybe: function() {
+              if (b.rsvp === 'maybe') return sort_username(a,b);
+              else if (b.rsvp === 'yes') return 1;
+              else if (b.rsvp === 'no') return -1;
+            }
+          };
+
+      return choices[a.rsvp]();
     });
 
-    for(var i=0, j=participants.length; i<j; i++) {
-      ret += options.fn(participants[i]);
-    }
+    participants.forEach(function(participant) {
+      ret += options.fn(participant);
+    });
 
     return ret;
   },
@@ -187,12 +179,12 @@ Template.admin_session.events({
 // Template createDialog
 Template.createDialog.events({
   'click .save': function (event, template) {
-    var nom         = template.find(".nom").value;
-    var date        = new Date(template.find(".date").value);
-    var lieu        = template.find(".lieu").value;
-    var nb_places   = parseInt(template.find(".nb_places").value, 10);
-    var description = template.find(".description").value;
-    var open        = ! template.find(".open").checked;
+    var nom         = template.find(".nom").value,
+        date        = new Date(template.find(".date").value),
+        lieu        = template.find(".lieu").value,
+        nb_places   = parseInt(template.find(".nb_places").value, 10),
+        description = template.find(".description").value,
+        open        = ! template.find(".open").checked;
 
     if (nom.length && description.length) {
       Meteor.call('createSession', {

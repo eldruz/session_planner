@@ -63,17 +63,8 @@ Template.sessions_headers.helpers({
   },
   momentDate: function() {
     var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
-    moment.lang(lang, {
-      calendar : {
-        lastDay  : '[Hier à] LT',
-        sameDay  : '[Aujourd\'hui à] LT',
-        nextDay  : '[Demain à] LT',
-        lastWeek : 'dddd [dernier] [à] LT',
-        nextWeek : 'dddd [à] LT',
-        sameElse : 'L [à] LT'
-      }
-    });
-    return moment(this.date).calendar();
+    moment.lang(lang);
+    return moment(this.date).format('dddd D MMMM [à] H:mm');
   }
 });
 

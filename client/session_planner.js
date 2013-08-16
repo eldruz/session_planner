@@ -51,7 +51,8 @@ Template.page.events ({
 Template.sessions_headers.helpers({
   sessions: function () {
     keywords = new RegExp(Session.get("search_keywords"), "i");
-    return Dosage.find({$or: [{nom: keywords}, {owner: keywords}, {date: keywords}]});
+    return Dosage.find({$or: [{nom: keywords}, {owner: keywords}, {date: keywords}]},
+                        {sort: [["open", "asc"], ["date", "asc"], ["nom", "asc"]]});
   },
   selected: function () {
     return Session.equals('selected', this._id) ? 'active' : '';

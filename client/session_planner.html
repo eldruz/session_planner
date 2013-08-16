@@ -66,11 +66,11 @@
       <p>{{description}}</p>
       <p>places restantes : {{nb_participants_confirmes}}/{{nb_places}}</p>
       {{#each_sorted participants}}
-        <i class="icon-{{rsvp_icon rsvp}} icon-large pull-left"></i>
-        <p>{{showUsername user}}</p>
         {{#if is_invited}}
           <span class="label label-info pull-right">Invité</span>
         {{/if}}
+        <i class="icon-{{rsvp_icon rsvp}} icon-large pull-left"></i>
+        <p>{{showUsername user}}</p>
       {{/each_sorted}}
     {{/with}}
       {{#if currentUser}}

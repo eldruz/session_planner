@@ -147,7 +147,7 @@ Template.details.helpers({
   },
   is_invited: function () {
     var session = Dosage.findOne(Session.get("selected"));
-    return jQuery.inArray(this.user, session.invited);
+    return (jQuery.inArray(this.user, session.invited) > -1);
   }
 });
 

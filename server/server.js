@@ -4,8 +4,11 @@
 Meteor.publish("sessions", function () {
   if (this.userId)
     return Dosage.find(
-      {$or: [{"open": true}, {"owner": this.userId}, {"invited": this.userId}]}
-      );
+      {$and:[
+        {$or: [{"open": true}, {"owner": this.userId}, {"invited": this.userId}]},
+        {'date': {$gt: new Date()}}
+      ]}
+    );
   else
     return Dosage.find({"open": true});
 });

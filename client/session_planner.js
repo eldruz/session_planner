@@ -1,6 +1,6 @@
 // Subscriptions and options
-Meteor.subscribe("sessions");
-Meteor.subscribe("users");
+var sessions_subscriptions = Meteor.subscribe("sessions"),
+    users_subscriptions    = Meteor.subscribe("users");
 
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"

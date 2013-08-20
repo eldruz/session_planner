@@ -38,5 +38,5 @@ Meteor.publish("sessions_old", function () {
 
 // On publie le nom des utilisateurs pour pouvoir les afficher en tant que créateur et participants aux sessions
 Meteor.publish("users", function() {
-  return Meteor.users.find({}, {fields: {emails: 1, username: 1}});
+  return Meteor.users.find({}, {fields: {username: 1}});
 });

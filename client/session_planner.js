@@ -1,11 +1,6 @@
 // Subscriptions and options
 var sessions_subscriptions, users_subscriptions;
 
-Deps.autorun(function () {
-  sessions_subscriptions = Meteor.subscribe("sessions", Session.get("sessionsSelector"));
-  users_subscriptions = Meteor.subscribe("users");
-});
-
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
 });
@@ -18,10 +13,14 @@ Meteor.startup(function () {
       if (session)
         Session.set("selected", session._id);
     }
-    Session.set("showCreateDialog", false);
-    Session.set("showInviteDialog", false);
-    Session.set("sessionsSelector", "future");
+
+  sessions_subscriptions = Meteor.subscribe("sessions", Session.get("sessionsSelector"));
+  users_subscriptions = Meteor.subscribe("users");
   });
+
+  Session.set("showCreateDialog", false);
+  Session.set("showInviteDialog", false);
+  Session.set("sessionsSelector", "future");
 });
 
 // Global helpers

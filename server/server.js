@@ -2,12 +2,13 @@
 
 // On ne publie que les session publiques ou les privées crées par soi-même
 Meteor.publish("sessions", function (option) {
-  if (this.userId) {
+	var userId = this.userId;
+  if (userId) {
     var choices = {
       future: function() {
         return Dosage.find(
           {$and:[
-            {$or: [{"open": true}, {"owner": this.userId}, {"invited": this.userId}]},
+            {$or: [{'open': true}, {'owner': userId}, {'invited': userId}]},
             {'date': {$gt: new Date()}}
           ]}
         );
@@ -15,21 +16,21 @@ Meteor.publish("sessions", function (option) {
       old: function() {
         return Dosage.find(
           {$and:[
-            {$or: [{"open": true}, {"owner": this.userId}, {"invited": this.userId}]},
+            {$or: [{'open': true}, {'owner': userId}, {'invited': userId}]},
             {'date': {$lt: new Date()}}
           ]}
         );
       },
       all: function() {
         return Dosage.find(
-          {$or: [{"open": true}, {"owner": this.userId}, {"invited": this.userId}]}
+          {$or: [{'open': true}, {'owner': userId}, {'invited': userId}]}
         );
       }
     };
-    return choices['future']();
+    return choices[option]();
   }
   else
-    return Dosage.find({"open": true});
+    return Dosage.find({$and: [{"open": true}, {'date': {$gt: new Date()}}]});
 });
 
 // On publie le nom des utilisateurs pour pouvoir les afficher en tant que créateur et participants aux sessions

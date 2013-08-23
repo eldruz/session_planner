@@ -193,6 +193,7 @@ Template.createDialog.events({
       }, function (error, session) {
         if (!error) {
           Session.set("selected", session);
+          Session.set("showCreateDialog", false);
         }
       }); // Meteor.call
     } // if

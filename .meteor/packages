@@ -6,7 +6,6 @@
 insecure
 preserve-inputs
 underscore
-bootstrap
 less
 accounts-ui
 accounts-base
@@ -16,5 +15,4 @@ font-awesome
 momentjs
 router
 page-js-ie-support
-bootstrap-updated
 modernizr-meteor

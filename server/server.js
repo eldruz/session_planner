@@ -1,14 +1,15 @@
 // Publish fonctions
 
-// On ne publie que les session publiques ou les privées crées par soi-même
+// Sessions published depends on the option parameter for either future, past or all sessions
 Meteor.publish("sessions", function (option) {
 	var userId = this.userId;
   if (userId) {
-    var choices = {
+    var or_selector = {$or: [{'open': true}, {'owner': userId}, {'invited': userId}]},
+        choices = {
       future: function() {
         return Dosage.find(
           {$and:[
-            {$or: [{'open': true}, {'owner': userId}, {'invited': userId}]},
+            or_selector,
             {'date': {$gt: new Date()}}
           ]}
         );
@@ -16,14 +17,14 @@ Meteor.publish("sessions", function (option) {
       old: function() {
         return Dosage.find(
           {$and:[
-            {$or: [{'open': true}, {'owner': userId}, {'invited': userId}]},
+            or_selector,
             {'date': {$lt: new Date()}}
           ]}
         );
       },
       all: function() {
         return Dosage.find(
-          {$or: [{'open': true}, {'owner': userId}, {'invited': userId}]}
+          or_selector
         );
       }
     };

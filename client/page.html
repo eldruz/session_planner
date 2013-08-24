@@ -1,10 +1,6 @@
 <template name="page">
-  {{#if showCreateDialog}}
-    {{> createDialog}}
-  {{/if}}
-  {{#if showInviteDialog}}
-    {{> inviteDialog}}
-  {{/if}}
+  {{> createDialogWrapper }}
+  {{> inviteDialogWrapper }}
   {{> navbar }}
   <div class="container-fluid">
     <sidebar class="span4 liste_sessions">
@@ -14,4 +10,16 @@
       {{> details}}
     </div>
   </div>
+</template>
+
+<template name="createDialogWrapper">
+  {{#if showCreateDialog}}
+    {{> createDialog}}
+  {{/if}}
+</template>
+
+<template name="inviteDialogWrapper">
+  {{#if showInviteDialog}}
+    {{> inviteDialog}}
+  {{/if}}
 </template>

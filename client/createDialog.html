@@ -1,0 +1,40 @@
+<template name="createDialog">
+  <div class="mask"> </div>
+  <div class="modal">
+    <div class="modal-header">
+      <button type="button" class="close cancel">&times;</button>
+      <h3>Add session</h3>
+    </div>
+
+    <div class="modal-body">
+      {{#if error}}
+        <div class="alert alert-error">{{error}}</div>
+      {{/if}}
+
+      <label>Nom</label>
+      <input type="text" class="nom span5">
+
+      <label>Date</label>
+      <input type="datetime-local" class="date span5">
+
+      <label>Lieu</label>
+      <input type="text" class="lieu span5">
+
+      <label class="checkbox">
+        <input type="checkbox" class="open">
+        Private session &mdash; invitees only
+      </label>
+
+      <label>Nombre de places</label>
+      <input type="number" class="nb_places span5" min="0">
+
+      <label>Description</label>
+      <textarea class="description span5"></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn cancel">Cancel</a>
+      <a href="#" class="btn btn-primary save">Add session</a>
+    </div>
+  </div>
+</template>

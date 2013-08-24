@@ -7,20 +7,14 @@ Accounts.ui.config({
 
 //If no session selected, select one.
 Meteor.startup(function () {
+  Session.setDefault("showCreateDialog", false);
+  Session.setDefault("showInviteDialog", false);
+  Session.setDefault("sessionsSelector", "future");
+  
   Deps.autorun(function () {
-    if (! Session.get("selected")) {
-      var session = Dosage.findOne();
-      if (session)
-        Session.set("selected", session._id);
-    }
-
-  sessions_subscriptions = Meteor.subscribe("sessions", Session.get("sessionsSelector"));
-  users_subscriptions = Meteor.subscribe("users");
+    sessions_subscriptions = Meteor.subscribe("sessions", Session.get("sessionsSelector"));
+    users_subscriptions = Meteor.subscribe("users");
   });
-
-  Session.set("showCreateDialog", false);
-  Session.set("showInviteDialog", false);
-  Session.set("sessionsSelector", "future");
 });
 
 // Global helpers
@@ -71,12 +65,12 @@ Template.sessions_items.helpers({
   momentDate: function() {
     var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
     moment.lang(lang);
-    return moment(this.date).format('dddd D MMMM [à] H:mm');
+    return moment(this.date).format('dddd D MMMM  H:mm');
   }
 });
 
 Template.sessions_items.events({
-  'click .session_header': function (event, template) {
+  'click .session_header': function () {
     Session.set('selected', this._id);
   }
 });

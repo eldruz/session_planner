@@ -59,8 +59,7 @@ Template.sessions_items.helpers({
     return Session.equals('selected', this._id) ? 'active' : '';
   },
   open: function() {
-    if (!this.open)
-      return 'private-session';
+    return this.open ? '' : 'private-session';
   },
   momentDate: function() {
     var lang = ( navigator.language || navigator.browserLanguage ).slice( 0, 2 );
@@ -86,10 +85,7 @@ Template.details.helpers({
     return Dosage.findOne(Session.get("selected"));
   },
   session_owner: function () {
-    if (Meteor.user())
-      return Dosage.findOne(Session.get("selected")).owner === Meteor.user()._id;
-    else
-      return false;
+    return Meteor.user() ? Dosage.findOne(Session.get("selected")).owner === Meteor.user()._id : false;
   },
   nb_participants_confirmes: function () {
     var count=0;
@@ -99,12 +95,12 @@ Template.details.helpers({
     return count;
   },
   rsvp_icon: function (rsvp) {
-    switch (rsvp) {
-      case 'yes'   : return 'ok';
-      case 'no'    : return 'remove';
-      case 'maybe' : return 'question';
-      default: return 'question';
-    }
+    var rsvp_choices = {
+      yes: function() { return 'ok'; },
+      no: function() { return 'remove'; },
+      maybe: function() { return 'question'; }
+    };
+    return rsvp_choices[rsvp]();
   },
   each_sorted: function (participants, options) {
     var ret = "",
@@ -121,18 +117,18 @@ Template.details.helpers({
 
     participants.sort(function (a,b) {
       var choices = {
-            yes: function() {
-              if (b.rsvp === 'yes') return sort_username(a,b); else return -1;
-            },
-            no: function() {
-              if (b.rsvp === 'no') return sort_username(a,b); else return 1;
-            },
-            maybe: function() {
-              if (b.rsvp === 'maybe') return sort_username(a,b);
-              else if (b.rsvp === 'yes') return 1;
-              else if (b.rsvp === 'no') return -1;
-            }
-          };
+        yes: function() {
+          if (b.rsvp === 'yes') return sort_username(a,b); else return -1;
+        },
+        no: function() {
+          if (b.rsvp === 'no') return sort_username(a,b); else return 1;
+        },
+        maybe: function() {
+          if (b.rsvp === 'maybe') return sort_username(a,b);
+          else if (b.rsvp === 'yes') return 1;
+          else if (b.rsvp === 'no') return -1;
+        }
+      };
 
       return choices[a.rsvp]();
     });
@@ -210,10 +206,7 @@ Template.createDialog.events({
 Template.inviteDialog.helpers({
   uninvited: function() {
     var session = Dosage.findOne(Session.get("selected"));
-    if (!session)
-      return []; // party hasn't loaded yet
-    return Meteor.users.find({$nor: [{_id: {$in: session.invited}},
-                                     {_id: session.owner}]});
+    return session ? Meteor.users.find({$nor: [{_id: {$in: session.invited}}, {_id: session.owner}]}) : [];
   }
 });
 

@@ -57,7 +57,10 @@ Template.sessions_headers.helpers({
     keywords = new RegExp(Session.get("search_keywords"), "i");
     return Dosage.find({$or: [{nom: keywords}, {owner: keywords}, {date: keywords}]},
                         {sort: [["open", "asc"], ["date", "asc"], ["nom", "asc"]]});
-  },
+  }
+});
+
+Template.sessions_items.helpers({
   selected: function () {
     return Session.equals('selected', this._id) ? 'active' : '';
   },
@@ -72,11 +75,16 @@ Template.sessions_headers.helpers({
   }
 });
 
-Template.sessions_headers.events({
-  'click .session_header': function (event) {
-    Session.set("selected", this._id);
+Template.sessions_items.events({
+  'click .session_header': function (event, template) {
+    Session.set('selected', this._id);
   }
 });
+
+Template.sessions_items.rendered = function () {
+  if (Session.equals('selected', this.data._id))
+    $(this.firstNode).fadeOut().fadeIn();
+};
 
 // Template : details
 Template.details.helpers({

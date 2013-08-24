@@ -48,11 +48,15 @@
 
 <template name="sessions_headers">
   {{#each sessions}}
-    <div class="session_header list-group {{selected}}">
-      <h4 class="list-group-item-heading {{open}}">{{nom}} by {{showUsername owner}}</h4>
-      <p class="list-group-item-text">{{momentDate date}}</p>
-    </div>
+    {{> sessions_items}}
   {{/each}}
+</template>
+
+<template name="sessions_items">
+  <div class="session_header list-group {{selected}}">
+    <h4 class="list-group-item-heading {{open}}">{{nom}} by {{showUsername owner}}</h4>
+    <p class="list-group-item-text">{{momentDate date}}</p>
+  </div>
 </template>
 
 <template name="details">

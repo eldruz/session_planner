@@ -57,7 +57,7 @@ Template.sessionDetail.helpers({
   }
 });
 
-Template.sessionDetail.events({
+Template.rsvpInput.events({
   'click .rsvp_yes': function () {
     Meteor.call("participeSession", this._id, "yes");
     return false;

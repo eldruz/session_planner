@@ -1,22 +1,45 @@
 @import "_typeplate";
 
-$weight: normal !default;
-$line-height: 1.65 !default;
-$font-size: 112.5 !default; // percentage value (16 * 112.5% = 18px)
-$font-base: 16 * ($font-size/100) !default; // converts our percentage to a pixel value
-$font-family: serif;
-$font-family-sans: sans-serif;
-$font-properties: $weight, $line-height, $font-size, $font-family;
-$serif-boolean: true !default;
+html {
+	@include base-type($font-properties...);
+}
 
-@mixin base-type($weight, $line-height, $font-size, $font-family...) {
-	@if $serif-boolean {
-		font: $weight #{$font-size}%/#{$line-height} $font-family;
-	}@else {
-		font: $weight #{$font-size}%/#{$line-height} $font-family-sans;
+.topNav {
+	text-align: center;
+	margin-bottom: context-calc($alpha, $font-base, em);
+
+	.topNav-login {
+		text-align: right;
 	}
 }
 
-html {
-	@include base-type($font-properties...);
+.page {
+	.session-list {
+		.session-each {
+			margin-bottom: context-calc($beta, $font-base, em);
+			.session-item {
+				.session-date-location {
+					text-align: left;
+				}
+				.session-name {
+					text-align: center;
+				}
+				.session-owner {
+					text-align: right;
+				}
+			}
+
+			.session-detail {
+				.session-description {
+					text-align: left;
+				}
+				.session-participants {
+					text-align: right;
+				}
+				.session-rsvp {
+					text-align: center;
+				}
+			}
+		}
+	}
 }

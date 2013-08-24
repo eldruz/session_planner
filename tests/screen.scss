@@ -6,3 +6,14 @@
 @import "compass/reset";
 @import "_layout";
 @import "_typography";
+
+
+.page {
+	.session-list {
+		.session-each {
+			.session-detail {
+				display: none;
+			}
+		}
+	}
+}

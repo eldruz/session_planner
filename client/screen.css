@@ -85,12 +85,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 /* line 11, ../tests/_layout.scss */
 .topNav .topNav-sitename {
-  width: 83.05085%;
+  padding-left: 16.94915%;
+  width: 66.10169%;
   float: left;
   margin-right: 1.69492%;
   display: inline;
 }
-/* line 14, ../tests/_layout.scss */
+/* line 15, ../tests/_layout.scss */
 .topNav .topNav-login {
   width: 15.25424%;
   float: right;
@@ -98,16 +99,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   *margin-left: -1em;
   display: inline;
 }
-/* line 17, ../tests/_layout.scss */
+/* line 18, ../tests/_layout.scss */
 .topNav .topNav-search {
   clear: both;
 }
-/* line 20, ../tests/_layout.scss */
+/* line 21, ../tests/_layout.scss */
 .topNav .topNav-create {
   clear: both;
 }
 
-/* line 25, ../tests/_layout.scss */
+/* line 26, ../tests/_layout.scss */
 .page {
   *zoom: 1;
   max-width: 59em;
@@ -123,65 +124,81 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: table;
   clear: both;
 }
-/* line 28, ../tests/_layout.scss */
-.page .session-item {
+/* line 29, ../tests/_layout.scss */
+.page .session-list {
   width: 100%;
   float: right;
   margin-right: 0;
   *margin-left: -1em;
   display: inline;
 }
-/* line 31, ../tests/_layout.scss */
-.page .session-item .session-date-location {
-  width: 23.72881%;
+/* line 32, ../tests/_layout.scss */
+.page .session-list .session-each {
+  width: 100%;
+  float: right;
+  margin-right: 0;
+  *margin-left: -1em;
+  display: inline;
+}
+/* line 35, ../tests/_layout.scss */
+.page .session-list .session-each .session-item {
+  width: 100%;
+  float: right;
+  margin-right: 0;
+  *margin-left: -1em;
+  display: inline;
+}
+/* line 38, ../tests/_layout.scss */
+.page .session-list .session-each .session-item .session-date-location {
+  width: 15.25424%;
   float: left;
   margin-right: 1.69492%;
   display: inline;
 }
-/* line 34, ../tests/_layout.scss */
-.page .session-item .session-name {
-  width: 57.62712%;
+/* line 41, ../tests/_layout.scss */
+.page .session-list .session-each .session-item .session-name {
+  width: 66.10169%;
   float: left;
   margin-right: 1.69492%;
   display: inline;
 }
-/* line 37, ../tests/_layout.scss */
-.page .session-item .session-owner {
+/* line 44, ../tests/_layout.scss */
+.page .session-list .session-each .session-item .session-owner {
   width: 15.25424%;
   float: right;
   margin-right: 0;
   *margin-left: -1em;
   display: inline;
 }
-/* line 42, ../tests/_layout.scss */
-.page .session-detail {
+/* line 49, ../tests/_layout.scss */
+.page .session-list .session-each .session-detail {
   width: 100%;
   float: right;
   margin-right: 0;
   *margin-left: -1em;
   display: inline;
 }
-/* line 44, ../tests/_layout.scss */
-.page .session-detail .session-admin {
+/* line 51, ../tests/_layout.scss */
+.page .session-list .session-each .session-detail .session-admin {
   clear: both;
 }
-/* line 47, ../tests/_layout.scss */
-.page .session-detail .session-description {
+/* line 54, ../tests/_layout.scss */
+.page .session-list .session-each .session-detail .session-description {
   width: 57.62712%;
   float: left;
   margin-right: 1.69492%;
   display: inline;
 }
-/* line 50, ../tests/_layout.scss */
-.page .session-detail .session-participants {
+/* line 57, ../tests/_layout.scss */
+.page .session-list .session-each .session-detail .session-participants {
   width: 40.67797%;
   float: right;
   margin-right: 0;
   *margin-left: -1em;
   display: inline;
 }
-/* line 53, ../tests/_layout.scss */
-.page .session-detail .session-rsvp {
+/* line 60, ../tests/_layout.scss */
+.page .session-list .session-each .session-detail .session-rsvp {
   clear: both;
 }
 
@@ -571,7 +588,51 @@ p + .drop-cap {
  * Extend this object into your markup.
  *
  */
-/* line 20, ../tests/_typography.scss */
+/* line 3, ../tests/_typography.scss */
 html {
   font: normal 112.5%/1.65 serif;
+}
+
+/* line 7, ../tests/_typography.scss */
+.topNav {
+  text-align: center;
+  margin-bottom: 3.33333em;
+}
+/* line 11, ../tests/_typography.scss */
+.topNav .topNav-login {
+  text-align: right;
+}
+
+/* line 18, ../tests/_typography.scss */
+.page .session-list .session-each {
+  margin-bottom: 2.66667em;
+}
+/* line 21, ../tests/_typography.scss */
+.page .session-list .session-each .session-item .session-date-location {
+  text-align: left;
+}
+/* line 24, ../tests/_typography.scss */
+.page .session-list .session-each .session-item .session-name {
+  text-align: center;
+}
+/* line 27, ../tests/_typography.scss */
+.page .session-list .session-each .session-item .session-owner {
+  text-align: right;
+}
+/* line 33, ../tests/_typography.scss */
+.page .session-list .session-each .session-detail .session-description {
+  text-align: left;
+}
+/* line 36, ../tests/_typography.scss */
+.page .session-list .session-each .session-detail .session-participants {
+  text-align: right;
+}
+/* line 39, ../tests/_typography.scss */
+.page .session-list .session-each .session-detail .session-rsvp {
+  text-align: center;
+}
+
+/* line 14, ../tests/screen.scss */
+.page .session-list .session-each .session-detail {
+  display: none;
 }

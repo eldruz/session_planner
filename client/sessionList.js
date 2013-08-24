@@ -21,12 +21,16 @@ Template.sessionItem.helpers({
 });
 
 Template.sessionItem.events({
-  'click .session-item': function () {
+  'click .session-item': function (event, template) {
     Session.set('selected', this._id);
+    $(template.firstNode.nextElementSibling).slideToggle();
   }
 });
 
 Template.sessionItem.rendered = function () {
-  if (Session.equals('selected', this.data._id))
-    $(this.firstNode).fadeOut().fadeIn();
+  // If we come from the right template instance and if triggered by a click in .session-item
+  // if (Session.equals('selected', this.data._id) && this.data.isClicked === true) {
+  //   this.data.isClicked = false;
+  //   $(this.firstNode.nextElementSibling).slideToggle('fast');
+  // }
 };

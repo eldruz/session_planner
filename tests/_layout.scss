@@ -9,7 +9,8 @@ $grid-padding   : $gutter-width;  // grid-padding equal to gutters
 	@include container;
 
 	.topNav-sitename {
-		@include span-columns(10, 12);
+		@include prefix(2);
+		@include span-columns(8, 12);
 	}
 	.topNav-login {
 		@include span-columns(2 omega, 12);
@@ -25,33 +26,41 @@ $grid-padding   : $gutter-width;  // grid-padding equal to gutters
 .page {
 	@include container;
 
-	.session-item {
+	.session-list {
 		@include span-columns(12 omega, 12);
 
-		.session-date-location {
-			@include span-columns(3,12);
-		}
-		.session-name {
-			@include span-columns(7,12);
-		}
-		.session-owner {
-			@include span-columns(2 omega,12);
-		}
-	}
+		.session-each {
+			@include span-columns(12 omega, 12);
 
-	.session-detail {
-		@include span-columns(12 omega, 12);
-		.session-admin {
-			clear:both;
-		}
-		.session-description {
-			@include span-columns(7,12);
-		}
-		.session-participants {
-			@include span-columns(5 omega, 12);
-		}
-		.session-rsvp {
-			clear:both;
+			.session-item {
+				@include span-columns(12 omega, 12);
+
+				.session-date-location {
+					@include span-columns(2,12);
+				}
+				.session-name {
+					@include span-columns(8,12);
+				}
+				.session-owner {
+					@include span-columns(2 omega,12);
+				}
+			}
+
+			.session-detail {
+				@include span-columns(12 omega, 12);
+				.session-admin {
+					clear:both;
+				}
+				.session-description {
+					@include span-columns(7,12);
+				}
+				.session-participants {
+					@include span-columns(5 omega, 12);
+				}
+				.session-rsvp {
+					clear:both;
+				}
+			}
 		}
 	}
 }

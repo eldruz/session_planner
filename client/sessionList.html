@@ -1,8 +1,10 @@
 <template name="sessionList">
 	<div class="session-list">
 		{{#each session}}
-		  {{> sessionItem}}
-		  {{> sessionDetail}}
+      <div class="session-each">
+  		  {{> sessionItem}}
+  		  {{> sessionDetail}}
+      </div>
 		{{/each}}
 	</div>
 </template>

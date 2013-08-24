@@ -1,12 +1,14 @@
-<template name="details">
-  {{#if session}}
-    {{#with session}}
+<template name="sessionDetail">
+  <div class="session-detail">
+    <div class="session-admin">
       {{#if session_owner}}
         {{> admin_session}}
       {{/if}}
-      <h2>{{nom}}</h2>
-      <h4>à {{lieu}}</h4>
+    </div>
+    <div class="session-description">
       <p>{{description}}</p>
+    </div>
+    <div class="session-participants">
       <p>places restantes : {{nb_participants_confirmes}}/{{nb_places}}</p>
       {{#each_sorted participants}}
         {{#if is_invited}}
@@ -15,7 +17,8 @@
         <i class="icon-{{rsvp_icon rsvp}} icon-large pull-left"></i>
         <p>{{showUsername user}}</p>
       {{/each_sorted}}
-    {{/with}}
+    </div>
+    <div class="session-rsvp">
       {{#if currentUser}}
         <input type="button" value="I'm going!"
                class="btn btn-small rsvp_yes {{maybeChosen "yes"}}">
@@ -26,5 +29,6 @@
       {{else}}
         <i>Sign in to RSVP for this party.</i>
       {{/if}}
-  {{/if}}
+    </div>
+  </div>
 </template>

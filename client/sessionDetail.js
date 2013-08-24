@@ -1,15 +1,10 @@
-Template.details.helpers({
-  session: function () {
-    return Dosage.findOne(Session.get("selected"));
-  },
+Template.sessionDetail.helpers({
   session_owner: function () {
-    return Meteor.user() ? Dosage.findOne(Session.get("selected")).owner === Meteor.user()._id : false;
+    return Meteor.user() ? this.owner === Meteor.user()._id : false;
   },
   nb_participants_confirmes: function () {
     var count=0;
-    Dosage.find(Dosage.findOne(Session.get("selected"))).forEach(function (session) {
-      count += _.where(session.participants, {rsvp: 'yes'}).length;
-    });
+    count += _.where(this.participants, {rsvp: 'yes'}).length;
     return count;
   },
   rsvp_icon: function (rsvp) {
@@ -58,22 +53,21 @@ Template.details.helpers({
     return ret;
   },
   is_invited: function () {
-    var session = Dosage.findOne(Session.get("selected"));
-    return (jQuery.inArray(this.user, session.invited) > -1);
+    return (jQuery.inArray(this.user, this.invited) > -1);
   }
 });
 
-Template.details.events({
+Template.sessionDetail.events({
   'click .rsvp_yes': function () {
-    Meteor.call("participeSession", Session.get("selected"), "yes");
+    Meteor.call("participeSession", this._id, "yes");
     return false;
   },
   'click .rsvp_maybe': function () {
-    Meteor.call("participeSession", Session.get("selected"), "maybe");
+    Meteor.call("participeSession", this._id, "maybe");
     return false;
   },
   'click .rsvp_no': function () {
-    Meteor.call("participeSession", Session.get("selected"), "no");
+    Meteor.call("participeSession", this._id, "no");
     return false;
   }
 });

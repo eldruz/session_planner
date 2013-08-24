@@ -1,0 +1,19 @@
+<template name="sessionList">
+	<div class="session-list">
+		{{#each session}}
+		  {{> sessionItem}}
+		  {{> sessionDetail}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="sessionItem">
+  <div class="session-item {{selected}}">
+  	<div class="session-date-location">
+    <h5>{{momentDate date}}</h5>
+    <h5>{{lieu}}</h5>
+    </div>
+    <h2 class="session-name {{open}}">{{nom}}</h2>
+  	<h4 class="session-owner">{{showUsername owner}}</h4>
+  </div>
+</template>

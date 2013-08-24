@@ -1,21 +1,16 @@
 <template name="navbar">
-  <div class="navbar navbar-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <ul class="nav">
-          <li class="active">
-            <a class="brand" href="/">SessionPlanner</a>
-          </li>
-          <li><a href="/">Liste </a></li>
-          <li><a href="#" class="create-session">Création</a></li>
-          <li>
-            <input name="search" id="search" value="{{search_keywords}}" type="text" class="search-query" placeholder="Search">
-          </li>
-        </ul>
-        <div class="pull-right">
-          {{loginButtons align="right"}}
-        </div>
-      </div>
+  <div class="topNav">
+    <div class="topNav-sitename">
+      <h1 class="sitename">SessionPlanner</h1>
+    </div>
+    <div class="topNav-login">
+      {{loginButtons align="right"}}
+    </div>
+    <div class="topNav-search">
+      <input name="search" id="search" value="{{search_keywords}}" type="text" class="search-query" placeholder="Search">
+    </div>
+    <div class="topNav-create">
+      <a href="#" class="create-session">Création</a>
     </div>
   </div>
 </template>

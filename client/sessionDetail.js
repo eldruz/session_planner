@@ -57,6 +57,17 @@ Template.sessionDetail.helpers({
   }
 });
 
+Template.sessionDetail.created = function () {
+  this.data.hidden = true;
+};
+
+Template.sessionDetail.rendered = function () {
+  if (this.data.hidden) {
+    $(this.firstNode).hide();
+    this.data.hidden = false;
+  }
+};
+
 Template.rsvpInput.events({
   'click .rsvp_yes': function () {
     Meteor.call("participeSession", this._id, "yes");

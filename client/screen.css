@@ -631,8 +631,3 @@ html {
 .page .session-list .session-each .session-detail .session-rsvp {
   text-align: center;
 }
-
-/* line 14, ../tests/screen.scss */
-.page .session-list .session-each .session-detail {
-  display: none;
-}

@@ -21,12 +21,11 @@ Template.sessions_items.helpers({
 });
 
 Template.sessions_items.events({
-  'click .session_header': function () {
+  'click .session_header': function (event, template) {
     Session.set('selected', this._id);
+    Meteor.setTimeout(function() {
+      $(template.firstNode).fadeOut().fadeIn();
+    }, 100);
+    
   }
 });
-
-Template.sessions_items.rendered = function () {
-  if (Session.equals('selected', this.data._id))
-    $(this.firstNode).fadeOut().fadeIn();
-};
